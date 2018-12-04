@@ -1,0 +1,54 @@
+---
+title: "Project Organization"
+output: html_notebook
+---
+
+## Organizational Structure 
+
+R Studio Version: 
+Version 1.1.456 – © 2009-2018 RStudio, Inc.
+
+
+This project contains 3 folders: 
+
+1. Data
+
+This folder contains all the raw and processed data. 
+Specifically, the "VDC_Syria_CASREP.csv" is the raw data, and the 
+"Tidying & cleaning data.Rmd" is the tidy data. 
+The folder also contains 2 rds files: one pertaining to the clean data,
+and the other to a data frame with the coordinates of the different provinces
+
+2. Outputs
+
+The second folder, "outputs" contains 1 rmd document.
+The "Text.rmd" contains all the instructions for manipulating the graphics
+and the descriptions for the graphs, timeline and diagrams. 
+The rds files relate to the code chunks within the rmd file. 
+
+3. www
+
+The third folder "www" contains the image that is embedded in the application.
+The image is a diagram of the main actors in the Syrian civil war. 
+
+Finally, the app.R file contains the code to run the shiny app. 
+Note that all files and folders have already been pushed to Github. 
+
+
+
+## Necessary Packages
+
+To succesfully run the application the following packages are necessary: 
+1. tidyverse
+2. stringr
+3. rebus
+4. lubridate
+5. leaflet
+6. htmltools
+7. leaflet.extras
+8. scales
+9. stringi 
+10. vistime  
+11. shinythemes
+12. shiny 
+
