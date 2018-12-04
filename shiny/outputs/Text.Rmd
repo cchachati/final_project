@@ -1,0 +1,205 @@
+---
+title: "Instructions for Manipulating the Graphics & Descriptions"
+output: html_document
+---
+
+To keep the Shiny app as concise and neat as possible, I decided to write 
+all the blocs of text on this document. I then created an rds file for each 
+set of text that I will then read into the main application. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(htmltools)
+
+```
+
+```{r, Read in the necessary data }
+
+data <- read_rds("../data/data_clean.rds")
+death_location <- read_rds("../data/death_location.rds")
+
+```
+
+
+
+```{r Explanation for Syrian Civil War Timeline}
+
+  ## Besides providing a timeline with the main events of the Syrian civil war,
+  ## I thought it would be useful to write a short blurb that summarizes the main
+  ## events of the Civil War and gives a very quick overview of the progression 
+  ## of the war. 
+
+
+description_timeline <- 
+HTML(paste("The Syrian civil war began in the backdrop of the so called
+Arab Spring. The first protests were in Daraa after 15 boys were allegedly
+detained and tortured for spray painting anti-government slogans at their school.
+Syria, however, quickly became a battleground not only between the Assad regime
+and domestic opposition, but also between Islamists and international actors"))
+
+write_rds(description_timeline, "description_timeline.rds")
+
+```
+
+
+```{r Explanation for Primary actors}
+
+  ## I also thought it would be useful to include a short description of the 
+  ## diagram highlighting the main actors of the war. 
+  ## I wanted to point out that the actors depicted in the diagram were only
+  ## a fraction of the number of actors involved in the war. 
+
+description_actors <- 
+HTML(paste("As the diagram above indicates, the Syrian civil war
+comprises both domestic actors and international actors.
+Syria has become the center for proxy wars among both state 
+and non state actors. The Assad regime is fighting against the
+Kurds in the north, the Free Syrian Army, and the Islamists such
+as al-Qaeda, ISIS, and the Army of Islam. However, this diagram only displays
+a fraction of all the militias involved in the war.", br(), br(),
+"Primarily, the Assad regime is supported by the so called Axis of Resistance: 
+Russia, Iran, Hizbullah, and their allies in the region. Whereas, the Free 
+Syrian Army is supported by the US, European countries and the Gulf. 
+These actors have different objectives ranging from preserving the status quo, 
+to territorial and ideological control.", br(), br(),
+"Currently, in 2018, the Assad regime and its allies have regained the
+majority of Syria."))
+
+write_rds(description_actors, "description_actors.rds")
+```
+
+
+```{r Instructions for SidePanel: Background on the Civil War}
+
+  ## I used ggplotly to create my timeline and line plots. 
+  ## Since ggplotly has many features such as zooming in and out etc
+  ## that are not immediately obvious, I decided to create a side panel
+  ## containing the instructions on how to manipulate each graphic. 
+
+
+instructions_timeline <- 
+  p(br(),
+    HTML(
+"<ul>
+<li> Draw a rectangle to zoom into a particular date range </li> <br/>
+<li> Double click to return to default </li> <br/>
+<li> Hover over a point on the timeline to display its relevant event and date </li> <br/>
+<li> Select the icons on the top right of the timeline for other manipulations </li>
+</ul>"
+          )
+        )
+
+write_rds(instructions_timeline, "instructions_timeline.rds")
+```
+
+
+```{r Instructions for the SidePanel: Total Deaths Over Time}
+
+instructions_lineplot_a <- 
+    p(br(),
+      HTML(
+"<ul>
+<li> Draw a rectangle to zoom into a particular date range </li> <br/>
+<li> Double click to return to default </li> <br/>
+<li> Hover over a point on the line to display its relevant data item </li> <br/>
+<li> Select the icons on the top right of the graph for other manipulations </li>
+</ul>"
+          )
+        )
+
+write_rds(instructions_lineplot_a, "instructions_lineplot_a.rds")
+
+```
+
+```{r, Instructions for SidePanel: Filtered Deaths Over Time}
+
+instructions_lineplot_b <-
+   p(br(), 
+     HTML(
+"<ul>
+<li> Draw a rectangle to zoom into a particular date range </li> <br/>
+<li> Double click to return to default </li> <br/>
+<li> Double Click on the observations in the legend to only show the data pertaining to that observation </li> <br/>
+<li> Click once on an observation in the legend to add or remove the data for that observation. </li> <br/>
+<li> Double click on the legend to return to default. </li> <br/>
+<li> Hover over a point on the line to display its relevant data </li> <br/>
+<li> Select the icons on the top right of the graph for other manipulations </li>"
+          )
+        )
+
+write_rds(instructions_lineplot_b, "instructions_lineplot_b.rds")
+
+```
+
+```{r Description for Line Plot: Total Deaths Over Time}
+
+  ## To help the users explore the different graphics, it is useful to provide 
+  ## a short interpretation or analysis. 
+  ## I wrote descriptions for the barplot and the two lineplots. 
+
+
+description_lineplot_a <-
+  
+  HTML(paste("To understand the progression of the Syrian civil war 
+and the periods of intense conflicts, it is valuable to track the total number
+of deaths over the months. As indicated by the graph above, the highest number
+of deaths occured between 2012 and 2014, with deaths reaching a maximum point
+between 2012 and 2013.", 
+br(), br(),
+"After comparing this information to the timeline, and to the deaths in 
+Aleppo and Damascus suburbs over time from the Filtered Deaths Over Time tab, 
+it becomes evident that the elevated death toll may be explained by the 
+fighting in Aleppo and Damascus and the rise of ISIS. In addition, 
+the difficulty of obtaining and documenting information as the war progressed
+may partially explain the decline in death toll over time."))
+
+write_rds(description_lineplot_a, "description_lineplot_a.rds")
+
+
+```
+
+```{r Description for Line Plot: Total Deaths Over Time by XXX}
+
+
+description_lineplot_b1 <- 
+  HTML(paste("To get a more comprehensive understanding of the nature of the 
+Syrian civil war, its primary actors and victims, as well as its progression
+over time, it is useful to compare the number of deaths over time
+across certain demographic, geographic and political factors. 
+Hence, the total number of deaths was calculated across these factors."))
+
+write_rds(description_lineplot_b1, "description_lineplot_b1.rds")
+
+description_lineplot_b2 <- 
+  HTML(paste("After analyzing the different variables, it may be inferred that 
+             the highest number of deaths occured between 2012 and 2013. 
+             In that time period, those deaths were disproportionally
+             adult male citizens in the Aleppo and Damascus Suburbs,
+             who had been killed by shelling or shooting, and
+             whose affiliation is unknown."))
+
+write_rds(description_lineplot_b2, "description_lineplot_b2.rds")
+```
+
+```{r Description for Barplot: Total Deaths in each Province from March 11 to September 18 by XXX and XXX}
+
+description_barplot <- 
+  HTML(paste("To gain a more holistic understanding of the
+regions and populations that were most affected by the war, it is valuable
+to analyze the total number of deaths from March 2011 to September 2018 in
+different provinces. Hence, the graph allows for a comparative analysis 
+of the total number of deaths across the provinces, and across different 
+demographic and political factors.", 
+br(), br(),
+"After analyzing the different variable, it may be inferred that
+the highest number of deaths occured among adult male citizens in 
+Aleppo and the Damascus suburbs as a result of shelling or shooting. 
+In addition, the affiliation of the majority of those killed is unknown."))
+
+write_rds(description_barplot, "description_barplot.rds")
+```
+
+
+
