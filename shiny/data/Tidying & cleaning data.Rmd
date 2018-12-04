@@ -1,0 +1,246 @@
+---
+title: "Cleaning Data "
+author: "Cayanne Chachati"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(rebus)
+library(lubridate)
+library(readr)
+library(leaflet)
+library(htmltools)
+library(leaflet.extras)
+library(scales)
+library(stringi)
+```
+
+
+
+```{r, Download the file}
+  
+  ## Because of the sensitivity of the issue, and the censorship by the
+  ## Syrian government, I decided it would best to download the data 
+  ## and push it to Github, as opposed to automating the download process 
+  ## within the r markdown file. 
+  ## I downloaded the data on October 18, 2018 and it may have been
+  ## modified online since then. 
+  ## If the user would like the most up to date data, it is available at: 
+  ## https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/file?filename=VDC_Syria_CASREP.csv
+
+data <- read_csv("VDC_Syria_CASREP.csv")
+data
+
+```
+
+rename province to be death province
+```{r, Tidy the data}
+
+  ## After initially observing the data, it becomes evident
+  ## that the data is not tidy. 
+  ## Specifically, the gender variabe contains information about both
+  ## gender and whether the person killed was an adult or child.
+  ## Hence, I separated the column. 
+
+data_tidy <-
+  data %>%
+  separate(gender, c("Adult_Child","Gender"), "-")
+
+
+```
+
+```{r, Rename the observations}
+
+  ## I first began by renaming the observations in the actor variable.
+  ## I made certain actor names more concise and I grouped the NA and 
+  ## not identified into one category under NA. 
+  ## In this data set, "Not Identified" refers to people who were killed and 
+  ## whose affiliation (what kind of actor they were) could not be determined. 
+  ## Whereas, NA means the data did not exist whether or not the person's
+  ## affiliation was evident. 
+  ## For the sake of the project I decided to merge the two together since 
+  ## in both cases, the actor is unknown. 
+  ## I chose to keep all the NA observation, since it comprises a 
+  ## large portion of the data that is important to take into account. 
+  ## Since one of the objectives of this application is to track total deaths
+  ## overtime, than it is important that all observations and deaths be taken
+  ## into account. 
+
+
+data_clean <-
+  data_tidy %>%
+  mutate(actor = case_when(
+    actor == "Al-Nusra Front" ~ "Al-Nusra Front",
+    actor == "International coalition forces" ~ "International coalition forces",
+    actor == "The organization of the Islamic State in Iraq and the Levant - ISIS" ~ "ISIS",
+    actor == "Armed opposition groups" ~ "Armed opposition",
+    actor == "Syrian government and affiliated militias" ~ "Assad regime",
+    actor == "Russian troops" ~ "Russian troops",
+    actor == "Self administration forces" ~ "Self administration forces",
+    TRUE ~ "Not Identified")) %>%
+  
+  ## Since I will geocode the provinces and plot them on a map, 
+  ## I renamed the provinces to reflect the spelling that appears on 
+  ## the browser. 
+
+  mutate(province = case_when(
+    province == "Daraa" ~ "Daraa",
+    province == "Raqqa" ~ "Raqqa",
+    province == "Sweida" ~ "Sweida",
+    province == "Damascus" ~ "Damascus",
+    province == "Damascus Suburbs" ~ "Damascus Suburbs",
+    province == "Hasakeh" ~ "Hasakeh",
+    province == "Hama" ~ "Hama",
+    province == "Aleppo" ~ "Aleppo",
+    province == "Homs" ~ "Homs",
+    province == "Idlib" ~ "Idlib",
+    province == "Deir Ezzor" ~ "Deir ez-Zor",
+    province == "Quneitra" ~ "Quneitra",
+    province == "Lattakia" ~ "Lattakia",
+    province == "Tartous" ~ "Tartous",
+    TRUE ~ "Other")) %>%
+  
+  ## The categorization used for deathcause is redundant 
+  ## Since I will be using deathcause to color bar graphs, the large number  
+  ## of distinct deathcauses will make the graphs less visually appealing and 
+  ## more difficult to understand. 
+  ## Hence, I recoded deathcauses to include fewer distinct observations,
+  ## while still retaining the different categories and specificity. 
+  
+  mutate(deathcause = case_when(
+    deathcause == "Chemical and toxic gases" ~ "Chemical and Toxic Gases",
+    deathcause %in% c("Detention - Execution", "Detention - Torture", "Detention - Torture - Execution") ~ "Detention (Tortured or Executed)",
+    deathcause %in% c("Kidnapping - Execution", "Kidnapping - Torture", "Kidnapping - Torture - Execution") ~ "Kidnapping (Tortured or Executed)",
+    deathcause %in% c("Explosion", "Shelling", "Warplane shelling") ~ "Shelling (Warplane and Other)",
+    deathcause == "Siege" ~ "Siege",
+    deathcause == "Un-allowed to seek Medical help" ~ "Forbidden from Seeking Medical Help",
+    deathcause %in% c("Unknown", "Other") ~ "Unknown or Other",
+    deathcause == "Shooting" ~ "Shooting", 
+    deathcause == "Field Execution" ~ "Field Execution"))
+```
+
+
+
+```{r Recode the deathdate}
+
+  ## Since I will graph the number of deaths overtime,
+  ## I explored which date interval would result in the most aesthetic and 
+  ## informative graphs.
+  ## I initially divided the dates by quarters, however this did not allow 
+  ## the user to see the significant fluctuations in deaths every month.
+  ## I thus ultimately decided to use a monthly interval, through which
+  ## the number of deaths would be counted and displayed per month. 
+  ## To do so, I used stringr functions. 
+
+pattern <- capture("-" %R% one_or_more(DGT) %R% END)
+
+data_clean <-
+data_clean %>%
+  mutate(deathdate = str_replace_all(deathdate, pattern = pattern, replacement = "-01"))%>%
+  mutate(deathdate = parse_date(deathdate))
+
+
+```
+
+```{r Clean the data}
+
+  ## In one of the tabs, the user will have the option to select several provinces. 
+  ## This will require the levels() functions, 
+  ## thus the variable must be a factor variable 
+  
+data_clean <-
+  data_clean %>%
+    mutate(province = as.factor(province)) %>%
+  
+  ## I tried geocoding the birthplace locations.
+  ## The mutate_geocode function is used to geocode in bulk, however, its default 
+  ## source is google, and there is no option to change it to dsk.
+  ## I would thus have to geocode each location independently and manually
+  ## create a dataframe with the coordinates.
+  ## Since there are thousands of birthplaces, many of whose coordinates
+  ## are not even found, I decided not to work with birthplace, 
+  ## and thus I did not select it. 
+  ## I renamed the actor variable to Affiliation, because I believe it 
+  ## will be more intuitive for the user to understand. 
+
+  select("Affiliation" = actor, Gender, "Province" = province, 
+              "Birthplace" = birthplace, "Deathdate" = deathdate, 
+              "Name" = name, "Status" = status, "Deathcause" = deathcause,
+              Adult_Child, "Status" = status, "Name" = name)
+
+
+write_rds(data_clean, "data_clean.rds")
+read_rds("data_clean.rds")
+```
+
+
+
+```{r Geocode the Provinces}
+
+  ## To map the provinces, I first had to geocode them. 
+  ## I initially tried using the mutate_geocode function that would automatically
+  ## geocode all the elements in a variable. However its default source
+  ## is google and the coordinates were only appearing if the source was dsk.
+  ## Hence, I listed all the provinces individually. 
+  ## Since Damascus Suburbs was not appearing, I chose Dummar, 
+  ## a city in the suburb. 
+
+death_location <- 
+  geocode(c("Damascus","Raqqa","Daraa","Sweida","Dummar Syria", "Hasakeh", 
+            "Hama", "Aleppo", "Homs", "Idlib", "Quneitra", "Lattakia", 
+            "Tartous", "Deir ez-Zor"),
+          output = "more", source = "dsk") %>%
+  select("province" = address, lon, lat)
+
+  ## I grouped the other locations or NA locations under Mediterranean Sea.
+  ## The default coordinates for the Mediterranean Sea were far from the
+  ## Syrian coast and would thus make the map very zoomed out. 
+  ## I thus manually entered coordinates that were closer to the coast. 
+
+other <- "Mediterranean Sea"
+
+other <- 
+  as.data.frame(other) %>%
+  mutate(lon = "35.008507",
+         lat = "35.197688") %>%
+  select("province" = other, lon, lat) %>%
+  mutate(lon = as.numeric(lon),
+         lat = as.numeric(lat))
+
+death_location <-
+  bind_rows(death_location, other)
+
+  ## I renamed the Dummar to Damascus Suburbs and Meditarranean Sea
+  ## to other, since they are more reflective of the actual data. 
+  ## The user would thus select Damascus Suburbs and Other from the 
+  ## drop box. 
+
+death_location <-
+  death_location %>%
+  mutate(province = case_when(
+    province == "Daraa" ~ "Daraa",
+    province == "Raqqa" ~ "Raqqa",
+    province == "Sweida" ~ "Sweida",
+    province == "Damascus" ~ "Damascus",
+    province == "Dummar Syria" ~ "Damascus Suburbs",
+    province == "Hasakeh" ~ "Hasakeh",
+    province == "Hama" ~ "Hama",
+    province == "Aleppo" ~ "Aleppo",
+    province == "Homs" ~ "Homs",
+    province == "Idlib" ~ "Idlib",
+    province == "Deir ez-Zor" ~ "Deir ez-Zor",
+    province == "Quneitra" ~ "Quneitra",
+    province == "Lattakia" ~ "Lattakia",
+    province == "Tartous" ~ "Tartous",
+    province == "Mediterranean Sea" ~ "Other")) %>%
+  mutate(province = as.factor(province))
+  
+write_rds(death_location, "death_location.rds")
+  
+```
+
+
+
