@@ -48,8 +48,8 @@ https://www.apnews.com/792a0bd7dd6a4006a78287f170165408
 
 Finally for a comprehensive analysis on the role of international politics within the war,
 read the following literature: 
-https://foreignpolicy.com/2018/05/10/what-iran-really-wants-in-syria/
 
+https://foreignpolicy.com/2018/05/10/what-iran-really-wants-in-syria/
 http://time.com/5162409/syria-civil-war-proxy-battles/
 
 ### Application Link 
