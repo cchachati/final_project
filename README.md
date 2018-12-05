@@ -11,7 +11,7 @@ an increase in conflict in Aleppo and the Damascus suburbs.
 In addition, from the onset of the Syrian civil war, the highest number of deaths occured among adult
 male citizens in Aleppo and the Damascus suburbs as a result of shelling or shooting. 
 
-### Information on the Syrian civil war
+### Information on the Syrian Civil War
 
 The Syrian civil war began in the backdrop of the so called Arab Spring.
 The first protests were in Daraa after 15 boys were allegedly detained and tortured for 
