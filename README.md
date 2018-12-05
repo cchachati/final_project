@@ -36,7 +36,7 @@ Currently, in 2018, the Assad regime and its allies have regained the majority o
 
 ### Additional Information
 The data on the number of deaths during the Syrian civil war is obtained from the
-Violation Documentatio Center in Syria:
+Violation Documentation Center in Syria:
 
 https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary
 
@@ -44,14 +44,12 @@ For more detailed information on the timeline of the Syrian civil war and its
 main events, visit the following websites: 
 
 https://www.cnn.com/2013/08/27/world/meast/syria-civil-war-fast-facts/index.html
-
 https://www.apnews.com/792a0bd7dd6a4006a78287f170165408
 
 Finally for a comprehensive analysis on the role of international politics within the war,
 read the following literature: 
 
 https://foreignpolicy.com/2018/05/10/what-iran-really-wants-in-syria/
-
 http://time.com/5162409/syria-civil-war-proxy-battles/
 
 ### Application Link 
