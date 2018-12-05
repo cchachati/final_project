@@ -40,13 +40,13 @@ description_barplot <- read_rds("outputs/description_barplot.rds")
 # These choices will be used in the UI for the side panels. 
 
 choices1 <- c("Cause of Death" = "Deathcause",
-             "Adult/Child" = "Adult_Child",
-             "Affiliation" = "Actor", "Status" = "Status",
-             "Gender" = "Gender", "Province" = "Province")
+              "Adult/Child" = "Adult_Child",
+              "Affiliation" = "Actor", "Status" = "Status",
+              "Gender" = "Gender", "Province" = "Province")
 choices2 <- c("Cause of Death" = "Deathcause",
-             "Adult/Child" = "Adult_Child",
-             "Affiliation" = "Actor", "Status" = "Status",
-             "Gender" = "Gender")
+              "Adult/Child" = "Adult_Child",
+              "Affiliation" = "Actor", "Status" = "Status",
+              "Gender" = "Gender")
 
 ## Since the application is focused on observing deaths over time and in
 ## in different provinces, I thought it would be useful to include 
@@ -219,17 +219,17 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                         # each point independently and clearly. 
                         
                         mainPanel( 
-                                  titlePanel(h3("Timeline of the Syrian Civil War")),
-                                  plotlyOutput(outputId = "timeline",
-                                               width = 900, height = 400),
-                                  br(),
-                                  h5(description_timeline), 
-                                  hr(),
-                                  helpText("Data from", tags$a("CNN", 
-                                                               href = "https://www.cnn.com/2013/08/27/world/meast/syria-civil-war-fast-facts/index.html"), 
-                                           "and", tags$a("AP News", 
-                                                         href = "https://www.apnews.com/792a0bd7dd6a4006a78287f170165408"))
-                                  )
+                          titlePanel(h3("Timeline of the Syrian Civil War")),
+                          plotlyOutput(outputId = "timeline",
+                                       width = 900, height = 400),
+                          br(),
+                          h5(description_timeline), 
+                          hr(),
+                          helpText("Data from", tags$a("CNN", 
+                                                       href = "https://www.cnn.com/2013/08/27/world/meast/syria-civil-war-fast-facts/index.html"), 
+                                   "and", tags$a("AP News", 
+                                                 href = "https://www.apnews.com/792a0bd7dd6a4006a78287f170165408"))
+                        )
                       ),
                       
                       # To further understand the progression of the civil war,
@@ -248,10 +248,10 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                         h5(description_actors),
                         hr(),
                         helpText("Diagram from", tags$a("National Compass", 
-                                                     href = "http://www.nationalcompass.net/wp-login.php?redirect_to=http%3A%2F%2Fwww.nationalcompass.net%2Fwp-admin%2F&reauth=1"))
+                                                        href = "http://www.nationalcompass.net/wp-login.php?redirect_to=http%3A%2F%2Fwww.nationalcompass.net%2Fwp-admin%2F&reauth=1"))
                       )
-                      )
-                    ),
+                    )
+                  ),
                   
                   # To understand the progression of the Syrian civil war 
                   # and its periods of intense conflict, it is valuable
@@ -295,7 +295,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                           hr(),
                           helpText("Data from", tags$a("Violations Documentation Center in Syria", 
                                                        href = "https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary"))
-                          )
+                        )
                       ),
                       
                       # To get a more comprehensive understanding of the 
@@ -337,7 +337,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                        instructions_lineplot_b
                                      )
                         ),
-                      
+                        
                         # I used a conditionalPanel because, as opposed to 
                         # a reactive variable that only makes the display
                         # of the table conditional, the conditional panel will
@@ -347,7 +347,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                         # title independent of the table's caption. 
                         # It would be a lot more complicated to make each 
                         # text chunk into a separate reactive text output. 
-                    
+                        
                         mainPanel(length = 10,
                                   h3("Line Plot"),    
                                   br(), 
@@ -369,7 +369,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                   hr(),
                                   helpText("Data from", 
                                            tags$a("Violations Documentation Center in Syria", 
-                                                               href = "https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary"))
+                                                  href = "https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary"))
                         )
                       )
                     )
@@ -409,7 +409,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                                   multiple = TRUE,
                                                   selected = c("Aleppo", "Damascus", "Lattakia", "Homs"),
                                                   options = list(maxItems = 4))
-                                   ),
+                                 ),
                                  wellPanel(
                                    h3("Plotting"),
                                    br(),
@@ -429,8 +429,8 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                                label = "Color by:",
                                                choices = choices2,
                                                selected = "Gender")
-                                   )
-                                 ),
+                                 )
+                    ),
                     mainPanel(
                       tabsetPanel(
                         tabPanel(
@@ -444,23 +444,23 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                           hr(),
                           helpText("Data from", 
                                    tags$a("Violations Documentation Center in Syria", 
-                                     href = "https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary"))
-                          ),
+                                          href = "https://data.world/polymathic/casualties-of-the-syrian-civil-war/workspace/project-summary"))
+                        ),
                         tabPanel(
                           title = "Map",
                           h3("Map of Syria and its Provinces"), 
                           br(), 
                           leafletOutput(outputId = "my_map2", 
                                         width = "800px", height = "500px")
-                          )
                         )
                       )
                     )
                   )
                 )
+)
 
 server <- function(input, output) {
-
+  
   # As previously described, for aesthetic purposes, I read in the timeline
   # from an rds file, and chose to use plotly. 
   
@@ -475,7 +475,7 @@ server <- function(input, output) {
   # time period. 
   # While cleaning the data, I had regrouped and recoded all the dates
   # into months. I thus only needed to find the sum per month. 
-
+  
   lineplot <- 
     total_overtime <-  
     data %>%
@@ -491,10 +491,10 @@ server <- function(input, output) {
   # a comma in the death counts. 
   # However, because dynamicTicks = TRUE, plotly automtaically determines the
   # breaks and does not allow me to add commas.
- 
+  
   output$lineplot_a <- renderPlotly({
     lineplot <- 
-    ggplot(total_overtime, aes(x = Deathdate, y = `Number of Deaths by Month`)) + 
+      ggplot(total_overtime, aes(x = Deathdate, y = `Number of Deaths by Month`)) + 
       geom_line() + 
       theme_minimal(base_size = 11, base_line_size = 1) + 
       theme(title = element_text(size = 12, family = "Arial", face = "bold"),
@@ -503,7 +503,7 @@ server <- function(input, output) {
            x = "Year",
            y = "Number of Deaths by Month",
            align = "c")
-  
+    
     ggplotly(p = lineplot, width = 800, height = 450, dynamicTicks = TRUE) 
   })
   
@@ -525,7 +525,7 @@ server <- function(input, output) {
     # Plotly does not have built in function to style its legend
     # Thus, in order to maintain the same style throughout the application, 
     # I manually coded the style for the legend.
-   
+    
     l <- list(
       font = list(
         family = "Arial",
@@ -547,10 +547,10 @@ server <- function(input, output) {
       theme(title = element_text(size = 12, family = "Arial", face = "bold"),
             axis.title = element_text(size = 11),
             legend.title = element_text(size = 11, face = "bold")) +
-      ggtitle(paste("Total Deaths Over Time by", names(choices2[which(choices2 == input$color)]))) +
+      ggtitle(paste("Total Deaths Over Time by", names(choices1[which(choices1 == input$color)]))) +
       labs(x = "Year",
            y = "Number of Deaths by Month",
-           color = names(choices2[which(choices2 == input$color)]),
+           color = names(choices1[which(choices1 == input$color)]),
            align = "c")
     
     # Making the ticks dynamic is important because it allows the user to 
@@ -599,16 +599,16 @@ server <- function(input, output) {
                             non-civilians. In addition, civilian death reached
                             a maximum point between 2012 and 2013.")))
             }else {
-             HTML(paste(em("From the graph above, it is evident that in the
-                           early years of the war the highest number of
-                           deaths was in Homs. Then from 2012 to 2018, the
-                           highest fatalities were  in Aleppo and the Damascus Suburbs.")))
-              }
+              HTML(paste(em("From the graph above, it is evident that in the
+                            early years of the war the highest number of
+                            deaths was in Homs. Then from 2012 to 2018, the
+                            highest fatalities were  in Aleppo and the Damascus Suburbs.")))
+            }
+            }
+            }
             }
           }
-        }
-      }
-    })
+        })
   
   # The following code chunk is to produce the description or subtitle 
   # for the table that shows the detailed data on deaths over time: 
@@ -668,7 +668,7 @@ server <- function(input, output) {
     data_m <- death_location
     data_m <- subset(
       data_m, province %in% c(req(input$province))
-      )
+    )
     data_m
   })
   
@@ -714,17 +714,17 @@ server <- function(input, output) {
   # with the rest of the application. 
   # Since I wanted the user to be able to compare deaths by province, 
   # I facetted the graph by province. 
-
+  
   output$barplot <- renderPlot({
     data <- data_province()
     ggplot(data, aes_string(input$x, fill = input$y)) + 
       geom_bar(position = "dodge") + 
       labs(y = "Number of Deaths",
-           x = names(choices1[which(choices1 == input$x)]),
+           x = names(choices1[which(choices2 == input$x)]),
            fill = names(choices2[which(choices2 == input$y)])) + 
       ggtitle(label = paste("Total Deaths in each Province by",
-                    names(choices1[which(choices1 == input$x)]), "and",
-                    names(choices1[which(choices1 == input$y)])),
+                            names(choices2[which(choices2 == input$x)]), "and",
+                            names(choices2[which(choices2 == input$y)])),
               subtitle = "March 2011 to September 2018") +
       coord_flip() + 
       scale_y_continuous(label = comma) +
