@@ -44,6 +44,7 @@ For more detailed information on the timeline of the Syrian civil war and its
 main events, visit the following websites: 
 
 https://www.cnn.com/2013/08/27/world/meast/syria-civil-war-fast-facts/index.html
+
 https://www.apnews.com/792a0bd7dd6a4006a78287f170165408
 
 Finally for a comprehensive analysis on the role of international politics within the war,
