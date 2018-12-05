@@ -151,7 +151,7 @@ br(), br(),
 "After comparing this information to the timeline, and to the deaths in 
 Aleppo and Damascus suburbs over time from the Filtered Deaths Over Time tab, 
 it becomes evident that the elevated death toll may be explained by the 
-fighting in Aleppo and Damascus and the rise of ISIS. In addition, 
+fighting in Aleppo and Damascus. In addition, 
 the difficulty of obtaining and documenting information as the war progressed
 may partially explain the decline in death toll over time."))
 
