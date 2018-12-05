@@ -257,10 +257,10 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                   # and its periods of intense conflict, it is valuable
                   # to track the number of deaths over the months.
                   # I wanted the user to choose between seeing the total
-                  # number of deaths overtime or the total number of deaths
+                  # number of deaths over time or the total number of deaths
                   # over time while filtering for certain variables.
                   # Hence, I decided to create two tabs within
-                  # the general tab of "Exploring Deaths Overtime".
+                  # the general tab of "Exploring Deaths Over Time".
                   
                   # In the first tab, I create a lineplot that shows
                   # the deaths over time. 
@@ -275,7 +275,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                   # and descriptions of the lineplot from an rds file.
                   
                   tabPanel(
-                    title = "Explore Deaths Overtime",
+                    title = "Explore Deaths Over Time",
                     tabsetPanel(
                       tabPanel(
                         title = "Total Deaths Over Time",
@@ -301,7 +301,7 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                       # To get a more comprehensive understanding of the 
                       # nature of the Syrian civil war, its primary actors, 
                       # and victims, as well as its progression over time, 
-                      # it is useful to compare the number of deaths overtime
+                      # it is useful to compare the number of deaths over time
                       # across certain demographic, geographic and political
                       # factors.
                       
@@ -471,7 +471,7 @@ server <- function(input, output) {
   # The raw data indicated the gender, status etc of each person that
   # had been killed, but did not calculate any statistics.
   # Hence, in order to create a display of the number of deaths
-  # overtime, I would have to calculate the sum of deaths for a given
+  # over time, I would have to calculate the sum of deaths for a given
   # time period. 
   # While cleaning the data, I had regrouped and recoded all the dates
   # into months. I thus only needed to find the sum per month. 
