@@ -16,7 +16,7 @@ library(shiny)
 
 # Read the cleaned data and death locations from the data folder.
 # The data was cleaned in a separate r markdown file to keep
-# this shiny app as concise and neat as possible. 
+# this shiny app concise and neat. 
 
 data <- read_rds("data/data_clean.rds")
 death_location <- read_rds("data/death_location.rds")
@@ -243,12 +243,12 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                         title = "Primary Actors",
                         titlePanel(h3("The Primary Actors of the Syrian Civil War")),
                         br(),
-                        HTML('<center><img src="actors.jpg" height = 350 width = 550 ></center>'),
+                        HTML('<center><img src="actors.jpg" height = 350 width = 500 ></center>'),
                         br(),
                         h5(description_actors),
                         hr(),
-                        helpText("Diagram from", tags$a("National Compass", 
-                                                        href = "http://www.nationalcompass.net/wp-login.php?redirect_to=http%3A%2F%2Fwww.nationalcompass.net%2Fwp-admin%2F&reauth=1"))
+                        helpText("Diagram from", tags$a("Business Insider", 
+                                                        href = "https://www.businessinsider.com/who-is-involved-in-the-war-in-syria-2013-10"))
                       )
                     )
                   ),
@@ -329,6 +329,9 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                                    label = "Choose a variable:",
                                                    choices = choices1,
                                                    selected = "Gender"),
+                                       h5("Status refers to whether the deceased was a civilian or combatant"),
+                                       h5("Affiliation refers to the group that the deceased supported 
+                                          regardless of their status"),
                                        checkboxInput(inputId = "table", 
                                                      label = "Display Table of Results")
                                      ),
@@ -428,7 +431,10 @@ ui <- fluidPage(theme = shinytheme("darkly"),
                                    selectInput(inputId = "y", 
                                                label = "Color by:",
                                                choices = choices2,
-                                               selected = "Gender")
+                                               selected = "Gender"),
+                                   h5("Status refers to whether the deceased was a civilian or combatant"),
+                                   h5("Affiliation refers to the group that the deceased supported 
+                                      regardless of their status")
                                  )
                     ),
                     mainPanel(
@@ -747,3 +753,9 @@ server <- function(input, output) {
 # Run the application 
 shinyApp(ui = ui, server = server)
 
+# Note: While I did define the status and affiliation variables, 
+# the definition of specific observations is not found in the raw data. 
+# Many observations are self evident.
+# However, and particularly for the Affiliation variable, 
+# there may be some confusion regarding what can be organized under each
+# observation. 
