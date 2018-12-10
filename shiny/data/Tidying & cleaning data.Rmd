@@ -1,5 +1,5 @@
 ---
-title: "Cleaning Data "
+title: "Cleaning Data"
 author: "Cayanne Chachati"
 output: html_document
 ---
@@ -16,6 +16,7 @@ library(htmltools)
 library(leaflet.extras)
 library(scales)
 library(stringi)
+library(ggmap)
 ```
 
 
