@@ -9,7 +9,7 @@ R Studio Version:
 Version 1.1.456 – © 2009-2018 RStudio, Inc.
 
 
-This project contains 3 folders
+This project contains 3 folders:
 
 1. Data
 
