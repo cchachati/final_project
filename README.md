@@ -47,7 +47,7 @@ https://www.cnn.com/2013/08/27/world/meast/syria-civil-war-fast-facts/index.html
 
 https://www.apnews.com/792a0bd7dd6a4006a78287f170165408
 
-Finally for a comprehensive analysis on the role of international politics within the war,
+Finally for a comprehensive analysis on the role of international politics in the war,
 read the following literature: 
 
 https://foreignpolicy.com/2018/05/10/what-iran-really-wants-in-syria/
