@@ -33,8 +33,12 @@ The image is a diagram of the main actors in the Syrian civil war.
 
 Finally, the app.R file contains the code to run the shiny app. 
 Note that all files and folders have already been pushed to Github. 
-
-
+Note While I did define the status and affiliation variables, 
+the definition of specific observations is not found in the raw data. 
+Many observations are self evident.
+However, and particularly for the Affiliation variable, 
+there may be some confusion regarding what can be organized under each
+observation. 
 
 ## Necessary Packages
 
